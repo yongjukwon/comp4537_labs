@@ -40,79 +40,35 @@
             <td>GET</td>
             <td>Get all courses</td>
             <td>https://herbertma.tech/api/v1/courses</td>
-            <!-- <td>
-              <button
-                class="btn btn-sm btn-secondary"
-                onclick="location.href='/4537/termproject/api/v1/admin?endpoint=Courses&type=get'"
-              >
-                Update
-              </button>
-            </td> -->
-            <td><%= counts.getCoursesCount %></td>
+            <td><%= counts.courses.get %></td>
           </tr>
           <tr>
             <th scope="col" colspan=""></th>
             <td>POST</td>
             <td>Create a course</td>
             <td>https://herbertma.tech/api/v1/courses</td>
-            <!-- <td>
-              <button
-                class="btn btn-sm btn-secondary"
-                onclick="location.href='/4537/termproject/api/v1/admin?endpoint=Courses&type=POST'"
-                disabled
-              >
-                Update
-              </button>
-            </td> -->
-            <td><%= counts.postCoursesCount %></td>
+            <td><%= counts.courses.post %></td>
           </tr>
           <tr>
             <th scope="col" colspan=""></th>
             <td>PUT</td>
             <td>Update a course</td>
             <td>https://herbertma.tech/api/v1/courses/{courseId}</td>
-            <!-- <td>
-              <button
-                class="btn btn-sm btn-secondary"
-                onclick="location.href='/4537/termproject/api/v1/admin?endpoint=Courses&type=PUT'"
-                disabled
-              >
-              Update
-              </button>
-            </td> -->
-            <td><%= counts.putCoursesCount %></td>
+            <td><%= counts.courses.post %></td>
           </tr>
           <tr>
             <th scope="col" colspan=""></th>
             <td>DELETE</td>
             <td>Delete a course</td>
             <td>https://herbertma.tech/api/v1/courses/{courseId}</td>
-            <!-- <td>
-              <button
-                class="btn btn-sm btn-secondary"
-                onclick="location.href='/4537/termproject/api/v1/admin?endpoint=Courses&type=DELETE'"
-                disabled
-              >
-              Update
-              </button>
-            </td> -->
-            <td><%= counts.deleteCoursesCount %></td>
+            <td><%= counts.courses.delete %></td>
           </tr>
           <tr>
             <th scope="col" colspan=""></th>
             <td>GET</td>
             <td>Get a course by user id</td>
             <td>https://herbertma.tech/api/v1/courses/{userId}</td>
-            <!-- <td>
-              <button
-                class="btn btn-sm btn-secondary"
-                onclick="location.href='/4537/termproject/api/v1/admin?endpoint=CoursesByUserId&type=get'"
-                disabled
-              >
-              Update
-              </button>
-            </td> -->
-            <td><%= counts.getCoursesByUserIdCount %></td>
+            <td><%= counts.coursesByUserId.get %></td>
           </tr>
 
           <!-- User -->
@@ -121,48 +77,21 @@
             <td>GET</td>
             <td>Get all users</td>
             <td>https://herbertma.tech/api/v1/users</td>
-            <!-- <td>
-              <button
-                class="btn btn-sm btn-secondary"
-                onclick="location.href='/4537/termproject/api/v1/admin?endpoint=Users&type=get'"
-                disabled
-              >
-              Update
-              </button>
-            </td> -->
-            <td><%= counts.getUsersCount %></td>
+            <td><%= counts.users.get %></td>
           </tr>
           <tr>
             <th scope="col" colspan=""></th>
             <td>POST</td>
             <td>Create an user</td>
             <td>https://herbertma.tech/api/v1/users</td>
-            <!-- <td>
-              <button
-                class="btn btn-sm btn-secondary"
-                onclick="location.href='/4537/termproject/api/v1/admin?endpoint=Users&type=post'"
-                disabled
-              >
-              Update
-              </button>
-            </td> -->
-            <td><%= counts.postUsersCount %></td>
+            <td><%= counts.users.post %></td>
           </tr>
           <tr>
             <th scope="col" colspan=""></th>
             <td>PUT</td>
             <td>Update an user</td>
             <td>https://herbertma.tech/api/v1/users/{userId}</td>
-            <!-- <td>
-              <button
-                class="btn btn-sm btn-secondary"
-                onclick="location.href='/4537/termproject/api/v1/admin?endpoint=Users&type=put'"
-                disabled
-              >
-              Update
-              </button>
-            </td> -->
-            <td><%= counts.putUsersCount %></td>
+            <td><%= counts.users.put %></td>
           </tr>
 
           <!-- Favorite Course -->
@@ -171,48 +100,21 @@
             <td>GET</td>
             <td>Get all favorite courses</td>
             <td>https://herbertma.tech/api/v1/favoriteCourses</td>
-            <!-- <td>
-              <button
-                class="btn btn-sm btn-secondary"
-                onclick="location.href='/4537/termproject/api/v1/admin?endpoint=getFavoriteCourse&type=get'"
-                disabled
-              >
-              Update
-              </button>
-            </td> -->
-            <td><%= counts.getFavoriteCoursesCount %></td>
+            <td><%= counts.favoriteCourses.get %></td>
           </tr>
           <tr>
             <th scope="col" colspan=""></th>
             <td>POST</td>
             <td>Create a favorite course</td>
             <td>https://herbertma.tech/api/v1/favoriteCourses</td>
-            <!-- <td>
-              <button
-                class="btn btn-sm btn-secondary"
-                onclick="location.href='/4537/termproject/api/v1/admin?endpoint=createFavoriteCourse&type=post'"
-                disabled
-              >
-              Update
-              </button>
-            </td> -->
-            <td><%= counts.postFavoriteCoursesCount %></td>
+            <td><%= counts.favoriteCourses.post %></td>
           </tr>
           <tr>
             <th scope="col" colspan=""></th>
             <td>DELETE</td>
             <td>Delete a favorite course</td>
             <td>https://herbertma.tech/api/v1/favoriteCourses/{favoriteCourseId}</td>
-            <!-- <td>
-              <button
-                class="btn btn-sm btn-secondary"
-                onclick="location.href='/4537/termproject/api/v1/admin?endpoint=deleteFavoriteCourse&type=delete'"
-                disabled
-              >
-              Update
-              </button>
-            </td> -->
-            <td><%= counts.deleteFavoriteCoursesCount %></td>
+            <td><%= counts.favoriteCourses.delete %></td>
           </tr>
         </tbody>
       </table>

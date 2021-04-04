@@ -5,39 +5,54 @@ const router = express.Router();
 const countEP = "https://herbertma.tech/api/v1/count";
 
 const counts = {
-  /* Course */
-  getCoursesCount: 0,
-  postCoursesCount: 0,
-  putCoursesCount: 0,
-  deleteCoursesCount: 0,
-  getCoursesByUserIdCount: 0,
-  /* User */
-  getUsersCount: 0,
-  postUsersCount: 0,
-  putUsersCount: 0,
-  /* Favorite Course */
-  getFavoriteCoursesCount: 0,
-  postFavoriteCoursesCount: 0,
-  deleteFavoriteCoursesCount: 0,
+  courses: {
+    get: 0,
+    post: 0,
+    put: 0,
+    delete: 0,
+  },
+  users: {
+    get: 0,
+    post: 0,
+    put: 0,
+  },
+  favoriteCourses: {
+    get: 0,
+    post: 0,
+    delete: 0,
+  },
+  coursesByUserId: {
+    get: 0,
+  },
 };
 
 router.route("/").get(async (req, res) => {
-  if (Object.keys(req.query).length > 0) {
-    const obj = req.query.endpoint;
-    const type = req.query.type;
+  await axios
+    .all([
+      axios.get(`${countEP}?endpoint=courses&type=get`),
+      axios.get(`${countEP}?endpoint=users&type=post`),
+      axios.get(`${countEP}?endpoint=users&type=get`),
+    ])
+    .then(
+      axios.spread((getCourseResponse, postUserReponse, getUserResponse) => {
+        const courseData = { get: getCourseResponse.data };
+        const userData = {
+          get: getUserResponse.data,
+          post: postUserReponse.data,
+        };
 
-    await axios
-      .get(`${countEP}?endpoint=${obj}&type=${type}`)
-      .then((res) => {
-        console.log(res.data);
-        if (res.data.success) counts[`${type}${obj}Count`] = res.data.count;
-        console.log(`${type}${obj}Count`);
-        console.log(counts);
+        if (courseData.get && courseData.get.success)
+          counts.courses.get = courseData.get.count;
+        if (userData.get && userData.get.success)
+          counts.users.get = userData.get.count;
+        if (userData.post && userData.post.success)
+          counts.users.post = userData.post.count;
       })
-      .catch((e) => {
-        throw e;
-      });
-  }
+    )
+    .catch((e) => {
+      throw e;
+    });
+
   res.render(__dirname + "../../../static/html/admin.html", { counts: counts });
 });
 

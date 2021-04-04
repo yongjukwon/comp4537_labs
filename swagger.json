@@ -1,0 +1,416 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "COMP4537 Term Project by Team G1. This is a simple BCIT ERP for managing Courses, Students and Instructors",
+        "version": "1.0.0",
+        "title": "BCIT ERP",
+        "termsOfService": "http://swagger.io/terms/",
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "host": "herbertma.tech",
+    "basePath": "/api/v1",
+    "tags": [
+        {
+            "name": "course",
+            "description": "Courses registered into BCIT",
+            "externalDocs": {
+                "description": "Endpoint",
+                "url": "https://herbertma.tech/api/v1/courses"
+            }
+        },
+        {
+            "name": "user",
+            "description": "Users registered into BCIT",
+            "externalDocs": {
+                "description": "Endpoint",
+                "url": "https://herbertma.tech/api/v1/users"
+            }
+        },
+        {
+            "name": "favoriteCourse",
+            "description": "Favorite courses of users",
+            "externalDocs": {
+                "description": "Endpoint",
+                "url": "https://herbertma.tech/api/v1/favoriteCourses/{userId}"
+            }
+        }
+    ],
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/courses": {
+            "get": {
+                "tags": [
+                    "course"
+                ],
+                "summary": "Get all courses registred to BCIT",
+                "operationId": "getCourses",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "course"
+                ],
+                "summary": "Add a course to BCIT courses list",
+                "operationId": "addCourse",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Course object that needs to be added to the BCIT courses list",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Course"
+                        }
+                    }
+                ],
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "course"
+                ],
+                "summary": "Update an existing course",
+                "description": "",
+                "operationId": "updateCourse",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Course object that needs to be added to the BCIT courses list",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Course"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Course not found"
+                    },
+                    "405": {
+                        "description": "Validation exception"
+                    }
+                }
+            }
+        },
+        "/courses/{courseId}": {
+            "delete": {
+                "tags": [
+                    "course"
+                ],
+                "summary": "Deletes a course",
+                "description": "",
+                "operationId": "deleteCourse",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                      "name": "courseID",
+                      "in": "path",
+                      "description": "Course id to delete",
+                      "required": true,
+                      "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Course not found"
+                    }
+                }
+            }
+        },
+        "/courses/{userId}": {
+            "get": {
+                "tags": [
+                    "course"
+                ],
+                "summary": "Get courses which the given user is enrolled in or teaching based on user's role id",
+                "operationId": "getCoursesByUserId",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get all users registred into BCIT",
+                "operationId": "getUsers",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}": {
+            "put": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update an existing user",
+                "description": "",
+                "operationId": "updateUserByUserId",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "User object that needs to be added to the BCIT users list",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "405": {
+                        "description": "Validation exception"
+                    }
+                }
+            }
+        },
+        "/signup": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Add an user to BCIT users list",
+                "operationId": "addUser",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "User object that needs to be added to the BCIT users list",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/favoriteCourses/{userId}": {
+            "get": {
+                "tags": [
+                    "favoriteCourse"
+                ],
+                "summary": "Get the given user's all favorite courses",
+                "operationId": "getFavoriteCourses",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "favoriteCourse"
+                ],
+                "summary": "Add a favorite course under the given user's favorite courses",
+                "operationId": "addFavoriteCourse",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "FavoriteCourse object that needs to be added to the BCIT courses list",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/FavoriteCourse"
+                        }
+                    }
+                ],
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/favoriteCourses/{userId}/{courseId}": {
+            "delete": {
+                "tags": [
+                    "favoriteCourse"
+                ],
+                "summary": "Deletes a favorite course",
+                "description": "",
+                "operationId": "deleteFavoriteCourse",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                      "name": "courseID",
+                      "in": "path",
+                      "description": "User id and Person id to delete",
+                      "required": true,
+                      "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Favorite Course not found"
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+    },
+    "definitions": {
+        "Course": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "type": "integer"
+                },
+                "CourseName": {
+                    "type": "string"
+                },
+                "StartDate": {
+                    "type": "object"
+                },
+                "PersonID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Person": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "type": "integer"
+                },
+                "FirstName": {
+                    "type": "string"
+                },
+                "LastName": {
+                    "type": "string"
+                },
+                "RoleID": {
+                    "type": "integer"
+                },
+                "Email": {
+                    "type": "string"
+                }
+            }
+        },
+        "FavoriteCourse": {
+            "type": "object",
+            "properties": {
+                "PersonID": {
+                    "type": "integer"
+                },
+                "CourseID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "SchoolRole": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "type": "integer"
+                },
+                "RoleName": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

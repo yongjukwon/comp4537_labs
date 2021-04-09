@@ -6,7 +6,7 @@ const endPoint = "/4537/termproject/api/v1";
 /* Route paths */
 const courses = require("./routes/v1/courses");
 const admin = require("./routes/v1/admin");
-
+const login = require("./routes/v1/login");
 /* Swagger */
 const swaggerUI = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
@@ -20,6 +20,7 @@ app.engine("html", require("ejs").renderFile);
 /* Routes */
 app.use(endPoint + "/courses", courses);
 app.use([endPoint + "/admin.html", endPoint + "/admin"], admin);
+app.use([endPoint + "/login.html", endPoint + "/login"], login);
 
 /* Swagger document */
 app.use(

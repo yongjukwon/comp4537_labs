@@ -1,6 +1,7 @@
 const axios = require("axios");
 const express = require("express");
 const router = express.Router();
+const cookie = require("cookie");
 
 const countEP = "https://herbertma.tech/api/v1/count";
 
@@ -27,6 +28,14 @@ const counts = {
 };
 
 router.route("/").get(async (req, res) => {
+  if (!req.headers.cookie) {
+    res.status(400).send("You need to log in");
+    return;
+  }
+  const cookies = cookie.parse(req.headers.cookie);
+
+  console.log("Cookies", cookies);
+
   await axios
     .all([
       axios.get(`${countEP}?endpoint=courses&type=get`),

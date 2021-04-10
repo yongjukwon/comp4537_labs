@@ -3,29 +3,27 @@ const router = express.Router();
 const axios = require("axios");
 const { USER_ROUTE } = require("../../utils/constants");
 
-const headers = {
-  "Content-Type": "application/x-www-form-urlencoded",
-};
-
 router.route("/").get(async (req, res) => {
   res.render(__dirname + "../../../static/html/register.html");
 });
 
 router.route("/").post(async (req, res) => {
+  console.log(req.body);
   await axios({
     method: "POST",
     url: USER_ROUTE,
     data: {
-      email: "test3@gmail.com",
-      password: "1111",
-      role: 3,
-      firstName: "Yongju3",
-      lastName: "Kwon3",
+      email: req.body.email,
+      password: req.body.password,
+      role: parseInt(req.body.jobTitle),
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      token: req.cookies.token,
     },
   }).then(
     (response) => {
       console.log(response);
-      res.render(__dirname + "../../../static/html/index.html");
+      res.render(__dirname + "../../../static/html/login.html", { errors: "" });
     },
     (err) => {
       console.log(err);

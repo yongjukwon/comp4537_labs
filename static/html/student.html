@@ -14,6 +14,52 @@
 </head>
 
 <body>
+
+
+
+  <div id = "enrolledContainer" class = "container-sm mt-5" > 
+
+    <h4>Enrolled Courses 
+      <button type="button" class="btn btn-primary"> Total
+      <span class="badge badge-light"> <%= enrolledCourses.length %></span>
+    </button></h4>
+
+
+
+    <% for (let i = 0; i < enrolledCourses.length; i ++) { %>
+      <ul class="list-group">
+
+      <li class = "enrolledCourses list-group-item"> 
+        <p> <%= enrolledCourses[i].CourseName %> </p> 
+        <p> <%= enrolledCourses[i].Description %> </p> 
+      </li>
+
+      </ul>
+    <% } %>
+
+  </div>
+
+  <div id = "favoritesContainer" class = "container-sm mt-5"> 
+    
+
+    <h4>Favorite Courses 
+      <button type="button" class="btn btn-primary"> Total 
+      <span class="badge badge-light"> <%= favorites.length %></span>
+    </button></h4>
+
+    <% for (let i = 0; i < favorites.length; i ++) { %>
+      <ul class="list-group">
+
+      <li class = "favorites list-group-item"> 
+        <p> <%= favorites[i].CourseName %> </p> 
+        <p> <%= favorites[i].Description %> </p> 
+      </li>
+
+      </ul>
+    <% } %>
+
+  </div>
+
   <script src="js/student.js"></script>
 </body>
 </html>

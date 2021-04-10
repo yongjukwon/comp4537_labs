@@ -10,11 +10,20 @@ router.route("/").get(async (req, res) => {
     res.redirect("login");
     return;
   }
+
+  const args = {};
+  const loggedIn = req.cookies.token;
+
+  args.signUp = loggedIn ? "Log out" : "Sign up";
+  args.signUpRoute = loggedIn ? "javascript:logout()" : "./register.html";
+
   const cookies = cookie.parse(req.headers.cookie);
   console.log(cookies.token);
   const role = await getRole(cookies.token);
 
-  if (role === "STUDENT") {
+  console.log("ROLE:", role);
+
+  if (role === "STUDENT" || role === "ADMIN") {
     const favorites = [
       {
         CourseName: "COMP6969",
@@ -32,6 +41,7 @@ router.route("/").get(async (req, res) => {
     res.render(__dirname + "../../../static/html/student.html", {
       favorites: favorites,
       enrolledCourses: enrolled,
+      args: args,
     });
   } else {
     res.redirect("index");

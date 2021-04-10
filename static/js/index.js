@@ -5,5 +5,5 @@ const del_cookie = () => {
 const logout = () => {
   console.log("Logging out");
   del_cookie();
-  window.location.replace("login.html");
+  window.location.replace("index.html");
 };

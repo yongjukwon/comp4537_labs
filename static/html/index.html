@@ -43,18 +43,14 @@
           Settings
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="./login.html">Log In</a>
-          <a class="dropdown-item" href="./register.html"><%= args.signUp %></a>
+          <a id="logInLink" class="dropdown-item" href="./login.html">Log In</a>
+          <a id="signUpLink" class="dropdown-item" href=<%= args.signUpRoute %>><%= args.signUp %></a>
         </div>
       </li>
     </nav>
 
     <div class="container">
       <h1>Index</h1>
-      <p>My first paragraph.</p>
-      <button type="button" class="btn btn-primary" onclick="logout()">
-        Logout
-      </button>
     </div>
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

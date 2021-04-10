@@ -6,6 +6,7 @@ router.route("/").get((req, res) => {
   const loggedIn = req.cookies.token;
   const args = {
     signUp: loggedIn ? "Log out" : "Sign up",
+    signUpRoute: loggedIn ? "javascript:logout()" : "./register.html",
   };
 
   res.render(__dirname + "../../../static/html/index.html", { args: args });

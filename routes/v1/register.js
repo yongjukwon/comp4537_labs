@@ -25,6 +25,7 @@ router.route("/").post(async (req, res) => {
   }).then(
     (response) => {
       console.log(response);
+      res.render(__dirname + "../../../static/html/index.html");
     },
     (err) => {
       console.log(err);

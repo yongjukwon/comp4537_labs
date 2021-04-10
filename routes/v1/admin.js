@@ -2,8 +2,7 @@ const axios = require("axios");
 const express = require("express");
 const router = express.Router();
 const cookie = require("cookie");
-
-const countEP = "https://herbertma.tech/api/v1/count";
+const { COUNT_ROUTE } = require("../../utils/constants");
 
 const counts = {
   courses: {
@@ -38,9 +37,9 @@ router.route("/").get(async (req, res) => {
 
   await axios
     .all([
-      axios.get(`${countEP}?endpoint=courses&type=get`),
-      axios.get(`${countEP}?endpoint=users&type=post`),
-      axios.get(`${countEP}?endpoint=users&type=get`),
+      axios.get(`${COUNT_ROUTE}?endpoint=courses&type=get`),
+      axios.get(`${COUNT_ROUTE}?endpoint=users&type=post`),
+      axios.get(`${COUNT_ROUTE}?endpoint=users&type=get`),
     ])
     .then(
       axios.spread((getCourseResponse, postUserReponse, getUserResponse) => {

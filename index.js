@@ -9,6 +9,7 @@ const courses = require("./routes/v1/courses");
 const admin = require("./routes/v1/admin");
 const login = require("./routes/v1/login");
 const index = require("./routes/v1/index");
+const student = require("./routes/v1/students");
 
 /* Swagger */
 const swaggerUI = require("swagger-ui-express");
@@ -27,6 +28,7 @@ app.use(endPoint + "/courses", courses);
 app.use([endPoint + "/admin.html", endPoint + "/admin"], admin);
 app.use([endPoint + "/login.html", endPoint + "/login"], login);
 app.use([endPoint + "/index.html", endPoint + "/index"], index);
+app.use([endPoint + "/student.html", endPoint + "/student"], student);
 
 /* Swagger document */
 app.use(

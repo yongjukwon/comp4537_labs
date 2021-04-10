@@ -2,6 +2,7 @@ const axios = require("axios");
 const express = require("express");
 const router = express.Router();
 const cookie = require("cookie");
+const jwt = require("jsonwebtoken"); //a library to manage JWT generation
 
 const countEP = "https://herbertma.tech/api/v1/count";
 
@@ -32,6 +33,7 @@ router.route("/").get(async (req, res) => {
     res.status(400).send("You need to log in");
     return;
   }
+
   const cookies = cookie.parse(req.headers.cookie);
 
   console.log("Cookies", cookies);

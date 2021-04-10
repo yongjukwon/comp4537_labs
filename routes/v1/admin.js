@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const cookie = require("cookie");
 const { COUNT_ROUTE } = require("../../utils/constants");
+const jwt = require("jsonwebtoken"); //a library to manage JWT generation
 
 const counts = {
   courses: {
@@ -31,6 +32,7 @@ router.route("/").get(async (req, res) => {
     res.status(400).send("You need to log in");
     return;
   }
+
   const cookies = cookie.parse(req.headers.cookie);
 
   console.log("Cookies", cookies);

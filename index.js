@@ -10,6 +10,7 @@ const admin = require("./routes/v1/admin");
 const login = require("./routes/v1/login");
 const index = require("./routes/v1/index");
 const register = require("./routes/v1/register");
+const student = require("./routes/v1/students");
 
 /* Swagger */
 const swaggerUI = require("swagger-ui-express");
@@ -29,6 +30,7 @@ app.use([endPoint + "/admin.html", endPoint + "/admin"], admin);
 app.use([endPoint + "/login.html", endPoint + "/login"], login);
 app.use([endPoint + "/index.html", endPoint + "/index"], index);
 app.use([endPoint + "/register.html", endPoint + "/register"], register);
+app.use([endPoint + "/student.html", endPoint + "/student"], student);
 
 /* Swagger document */
 app.use(

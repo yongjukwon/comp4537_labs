@@ -17,7 +17,7 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 
 app.use(cookieParser());
-app.use(express.urlencoded({ extend: true })); //Parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
 
 /* Admin page */
 

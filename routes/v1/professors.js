@@ -4,6 +4,7 @@ const cookie = require("cookie");
 const axios = require("axios");
 const { getRole } = require("../../utils/roles");
 const { COURSE_ROUTE, PROFESSORS_ROUTE } = require("../../utils/constants");
+const authenticate = require("./utils/authentication");
 
 router.route("/").get(async (req, res) => {
   if (!req.headers.cookie) {
@@ -11,7 +12,8 @@ router.route("/").get(async (req, res) => {
     return;
   }
 
-  const args = {};
+  let args = {};
+  args = await authenticate({ req: req, args: args });
 
   await axios
     .get(COURSE_ROUTE, {

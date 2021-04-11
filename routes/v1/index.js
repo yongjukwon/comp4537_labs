@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const authenticate = require("./utils/authentication");
 
-router.route("/").get((req, res) => {
-  const loggedIn = req.cookies.token;
-  const args = {
-    signUp: loggedIn ? "Log out" : "Sign up",
-    signUpRoute: loggedIn ? "javascript:logout()" : "./register.html",
-  };
+router.route("/").get(async (req, res) => {
+  let args = {};
+  args = await authenticate({ req: req, args: args });
+
+  console.log(args);
 
   res.render(__dirname + "../../../static/html/index.html", { args: args });
 });

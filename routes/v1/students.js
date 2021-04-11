@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const cookie = require("cookie");
 const { getRole } = require("../../utils/roles");
+const authenticate = require("./utils/authentication");
 
 //https://stackoverflow.com/questions/59017101/how-to-create-and-insert-div-element-to-ejs-node-js-express-ejs
 
@@ -11,15 +11,10 @@ router.route("/").get(async (req, res) => {
     return;
   }
 
-  const args = {};
-  const loggedIn = req.cookies.token;
+  let args = {};
+  args = await authenticate({ req: req, args: args });
 
-  args.signUp = loggedIn ? "Log out" : "Sign up";
-  args.signUpRoute = loggedIn ? "javascript:logout()" : "./register.html";
-
-  const cookies = cookie.parse(req.headers.cookie);
-  console.log(cookies.token);
-  const role = await getRole(cookies.token);
+  const role = await getRole(req.cookies.token);
 
   console.log("ROLE:", role);
 

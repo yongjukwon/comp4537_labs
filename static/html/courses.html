@@ -61,9 +61,6 @@
     <button type="button" class="btn-sm btn-secondary" data-toggle="modal" data-target="#registerCourseModal">
       Register a Course
     </button>
-    <!-- <form action="./courses.html" method="POST">
-        <button type="submit">CREATE COURSE</button>
-      </form> -->
   </div>
   <div class="container">
     <table class="table table-sm">
@@ -73,8 +70,10 @@
           <th scope="col">Course Name</th>
           <th scope="col">Description</th>
           <th scope="col">Instructor</th>
-          <th scope="col"></th>
-          <th scope="col"></th>
+          <% if (args.role === "ADMIN") { %>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          <% } %>
         </tr>
       </thead>
       <tbody>
@@ -89,7 +88,9 @@
             <td>
               <%= args.courses[i].Description %>
             </td>
-            <td></td>
+            <td>
+              <%= args.courses[i].Instructor %>
+            </td>
             <td><button class="btn-sm btn-secondary test" data-toggle="modal" data-target="#registerCourseModal"
                 title="Edit <%= args.courses[i].CourseName %>">Edit</button></td>
             <td><button class="btn-sm btn-secondary">Delete</button></td>

@@ -5,3 +5,15 @@ body {
 .requestContainer {
   margin-top: 100px;
 }
+
+a {
+  color: white;
+}
+
+.dropdown {
+  margin-right: 20px;
+}
+
+.context {
+  padding-top: 50px;
+}

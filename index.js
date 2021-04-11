@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const courses = require("./routes/v1/courses");
 const admin = require("./routes/v1/admin");
 const login = require("./routes/v1/login");
+const logout = require("./routes/v1/logout");
 const index = require("./routes/v1/index");
 const register = require("./routes/v1/register");
 const student = require("./routes/v1/students");
@@ -33,6 +34,7 @@ app.use([endPoint + "/index.html", endPoint + "/index"], index);
 app.use([endPoint + "/register.html", endPoint + "/register"], register);
 app.use([endPoint + "/student.html", endPoint + "/student"], student);
 app.use([endPoint + "/professor.html", endPoint + "/professor"], professor);
+app.use([endPoint + "/logout.html", endPoint + "/logout"], professor);
 
 /* Swagger document */
 app.use(

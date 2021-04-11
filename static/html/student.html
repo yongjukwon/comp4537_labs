@@ -52,7 +52,7 @@
   </nav>
   <div id="enrolledContainer" class="container-sm mt-5 pt-5">
 
-    <h4>Enrolled Courses
+    <h4> 📔 Enrolled Courses
       <button type="button" class="btn btn-primary"> Total
         <span class="badge badge-light">
           <%= enrolledCourses.length %>
@@ -60,18 +60,31 @@
       </button>
     </h4>
 
-
-
     <% for (let i=0; i < enrolledCourses.length; i ++) { %>
-      <ul class="list-group">
+      <ul id = '<%= enrolledCourses[i].CourseName %>'class="list-group">
 
-        <li class="enrolledCourses list-group-item">
-          <p>
-            <%= enrolledCourses[i].CourseName %>
-          </p>
-          <p>
-            <%= enrolledCourses[i].Description %>
-          </p>
+        <li class="enrolledCourses list-group-item container">
+
+
+          <div class = "row align-items-center"> 
+            <div class = "col"> 
+              <p>
+                <%= enrolledCourses[i].CourseName %>
+              </p>
+              <p>
+                <%= enrolledCourses[i].Description %>
+              </p>
+              <p>
+                <span class="badge badge-success">Professor Email: <%= enrolledCourses[i].Email %></span>
+              </p>
+            </div>
+  
+            <div class = "col">
+              <button type="button" class="btn btn-danger" onclick = "dropCourse('<%= enrolledCourses[i].CourseName %>')"> Drop course</button>
+            </div> 
+
+          </div>
+          
         </li>
 
       </ul>
@@ -82,7 +95,7 @@
   <div id="favoritesContainer" class="container-sm mt-5">
 
 
-    <h4>Favorite Courses
+    <h4> ⭐ Favorite Courses
       <button type="button" class="btn btn-primary"> Total
         <span class="badge badge-light">
           <%= favorites.length %>
@@ -91,15 +104,30 @@
     </h4>
 
     <% for (let i=0; i < favorites.length; i ++) { %>
-      <ul class="list-group">
+      <ul id = '<%= favorites[i].CourseName %>'class="list-group">
 
-        <li class="favorites list-group-item">
-          <p>
-            <%= favorites[i].CourseName %>
-          </p>
-          <p>
-            <%= favorites[i].Description %>
-          </p>
+        <li class="enrolledCourses list-group-item container">
+
+
+          <div class = "row align-items-center"> 
+            <div class = "col"> 
+              <p>
+                <%= favorites[i].CourseName %>
+              </p>
+              <p>
+                <%= favorites[i].Description %>
+              </p>
+              <p>
+                <span class="badge badge-success">Professor Email: <%= favorites[i].Email %></span>
+              </p>
+            </div>
+  
+            <div class = "col">
+              <button type="button" class="btn btn-warning" onclick = "unFavoriteCourse('<%= favorites[i].CourseName %>')"> Unfavorite course</button>
+            </div> 
+
+          </div>
+          
         </li>
 
       </ul>

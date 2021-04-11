@@ -1,9 +1,15 @@
 const axios = require("axios");
 const express = require("express");
 const router = express.Router();
-const cookie = require("cookie");
-const { COUNT_ROUTE } = require("../../utils/constants");
-const jwt = require("jsonwebtoken"); //a library to manage JWT generation
+const { getRole } = require("../../utils/roles");
+const {
+  COUNT_ROUTE,
+  COURSE_ROUTE,
+  PROFESSORS_ROUTE,
+  USER_ROUTE,
+} = require("../../utils/constants");
+const alert = require("alert");
+const authenticate = require("./utils/authentication");
 
 const counts = {
   courses: {
@@ -33,9 +39,54 @@ router.route("/").get(async (req, res) => {
     return;
   }
 
-  const cookies = cookie.parse(req.headers.cookie);
+  const role = await getRole(req.cookies.token);
+  if (role !== "ADMIN") {
+    alert(
+      "Sorry, you are not allowed to see admin page.\nThis is only for admin"
+    );
+    res.redirect("./index");
+  }
 
-  console.log("Cookies", cookies);
+  let args = {};
+  args = await authenticate({ req: req, args: args });
+  await axios
+    .get(PROFESSORS_ROUTE, { data: { token: req.cookies.token } })
+    .then((response) => {
+      args.professors = response.data;
+    })
+    .catch((err) => console.log(err));
+
+  for (let i = 0; i < args.professors.length; ++i) {
+    await axios
+      .get(USER_ROUTE, {
+        data: {
+          personId: args.professors[i].ID,
+          token: req.cookies.token,
+        },
+      })
+      .then((response) => {
+        args.professors[i].name =
+          response.data[0].FirstName + " " + response.data[0].LastName;
+      })
+      .catch((err) => console.log(err));
+  }
+
+  /* get courses */
+  await axios
+    .get(COURSE_ROUTE, { data: { token: req.cookies.token } })
+    .then((response) => {
+      console.log(response.data);
+      args.courses = response.data;
+    })
+    .catch((err) => console.log(err));
+
+  for (let i = 0; i < args.courses.length; ++i) {
+    for (let j = 0; j < args.professors.length; ++j) {
+      if (args.courses[i].PersonID === args.professors[j].ID) {
+        args.courses[i].Instructor = args.professors[j].name;
+      }
+    }
+  }
 
   await axios
     .all([
@@ -63,7 +114,10 @@ router.route("/").get(async (req, res) => {
       throw e;
     });
 
-  res.render(__dirname + "../../../static/html/admin.html", { counts: counts });
+  res.render(__dirname + "../../../static/html/admin.html", {
+    args: args,
+    counts: counts,
+  });
 });
 
 module.exports = router;

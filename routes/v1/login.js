@@ -3,9 +3,15 @@ const router = express.Router();
 const axios = require("axios");
 const { LOGIN_ROUTE } = require("../../utils/constants");
 const cookie = require("cookie");
+const authenticate = require("./utils/authentication");
 
-router.route("/").get((req, res) => {
-  res.render(__dirname + "../../../static/html/login.html", { errors: "" });
+router.route("/").get(async (req, res) => {
+  let args = {};
+  args = await authenticate({ req: req, args: args });
+  res.render(__dirname + "../../../static/html/login.html", {
+    args: args,
+    errors: "",
+  });
 });
 
 router.route("/").post(async (request, response) => {

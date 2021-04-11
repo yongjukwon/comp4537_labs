@@ -2,13 +2,19 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const { USER_ROUTE } = require("../../utils/constants");
+const authenticate = require("./utils/authentication");
 
 router.route("/").get(async (req, res) => {
-  res.render(__dirname + "../../../static/html/register.html");
+  let args = {};
+  args = await authenticate({ req: req, args: args });
+
+  res.render(__dirname + "../../../static/html/register.html", { args: args });
 });
 
 router.route("/").post(async (req, res) => {
-  console.log(req.body);
+  let args = {};
+  args = await authenticate({ req: req, args: args });
+  console.log("BODY: ", req.body);
   await axios({
     method: "POST",
     url: USER_ROUTE,
@@ -22,8 +28,11 @@ router.route("/").post(async (req, res) => {
     },
   }).then(
     (response) => {
-      console.log(response);
-      res.render(__dirname + "../../../static/html/login.html", { errors: "" });
+      console.log("RES: ", response);
+      res.render(__dirname + "../../../static/html/login.html", {
+        args: args,
+        errors: "",
+      });
     },
     (err) => {
       console.log(err);

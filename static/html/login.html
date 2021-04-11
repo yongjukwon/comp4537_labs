@@ -33,10 +33,50 @@
     font-size: 15px;
     font-weight: bold;
 }
+a {
+      color: white;
+    }
+
+    .dropdown {
+      margin-right: 20px;
+    }
 </style>
 </head>
 <body>
-
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="./index.html">BCIT Nerds</a>
+        <div class="container-fluid">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="./courses.html">Courses</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./professor.html">Professors</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./student.html">Students</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./admin.html">Admin</a>
+            </li>
+          </ul>
+        </div>
+    
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Settings
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <% if (!args.loggedIn) { %>
+              <a id="logInLink" class="dropdown-item" href="./login.html">Log In</a>
+              <a id="signUpLink" class="dropdown-item" href=<%=args.signUpRoute %>><%= args.signUp %></a>
+            <% } else {%>
+              <a id="signUpLink" class="dropdown-item" href="javascript:logOut()"><%= args.signUp %></a>
+            <% } %>
+          </div>
+        </li>
+      </nav>
 <div class="alert alert-success" role="alert" id="loginAlert">
     <p style="text-align: center;">Incorrect Credential</p>
 </div>

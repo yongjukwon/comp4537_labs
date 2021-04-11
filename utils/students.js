@@ -1,15 +1,15 @@
 const { FAVORITES_ROUTE, ENROLLMENTS_ROUTE } = require("./constants");
+const axios = require("axios");
 
-const getFavorites = async (token, personId) => {
+const getFavorites = async (token) => {
   return axios
     .get(FAVORITES_ROUTE, {
       data: {
         token: token,
-        personId: personId,
       },
     })
     .then((response) => {
-      return response.data.role;
+      return response.data;
     })
     .catch((error) => {
       return error;
@@ -21,11 +21,10 @@ const getEnrollments = async (token) => {
     .get(ENROLLMENTS_ROUTE, {
       data: {
         token: token,
-        personId: personId,
       },
     })
     .then((response) => {
-      return response.data.role;
+      return response.data;
     })
     .catch((error) => {
       return error;

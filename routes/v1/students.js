@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { getRole } = require("../../utils/roles");
+const { getFavorites, getEnrollments } = require("../../utils/students");
 const authenticate = require("./utils/authentication");
 
 //https://stackoverflow.com/questions/59017101/how-to-create-and-insert-div-element-to-ejs-node-js-express-ejs
@@ -16,22 +17,9 @@ router.route("/").get(async (req, res) => {
 
   const role = await getRole(req.cookies.token);
 
-  console.log("ROLE:", role);
-
   if (role === "STUDENT" || role === "ADMIN") {
-    const favorites = [
-      {
-        CourseName: "COMP6969",
-        Description: "Description",
-      },
-    ];
-
-    const enrolled = [
-      {
-        CourseName: "COMP6969",
-        Description: "Description",
-      },
-    ];
+    const favorites = await getFavorites(req.cookies.token);
+    const enrolled = await getEnrollments(req.cookies.token);
 
     res.render(__dirname + "../../../static/html/student.html", {
       favorites: favorites,

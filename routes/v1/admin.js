@@ -42,6 +42,7 @@ router.route("/").get(async (req, res) => {
   const role = await getRole(req.cookies.token).catch((err) =>
     console.log(err)
   );
+
   if (role !== "ADMIN") {
     alert(
       "Sorry, you are not allowed to see admin page.\nThis is only for admin"
@@ -77,7 +78,6 @@ router.route("/").get(async (req, res) => {
   await axios
     .get(COURSE_ROUTE, { data: { token: req.cookies.token } })
     .then((response) => {
-      console.log(response.data);
       args.courses = response.data;
     })
     .catch((err) => console.log(err));
@@ -99,8 +99,6 @@ router.route("/").get(async (req, res) => {
     }
     args.professors[i].coursesTeaching = coursesTeaching;
   }
-
-  console.log("*(*(: ", args);
 
   await axios
     .all([
@@ -128,10 +126,57 @@ router.route("/").get(async (req, res) => {
       throw e;
     });
 
+  console.log(args);
+
   res.render(__dirname + "../../../static/html/admin.html", {
     args: args,
     counts: counts,
   });
+});
+
+router.route("/").post(async (req, res) => {
+  const courses = await axios
+    .get(COURSE_ROUTE, { data: { token: req.cookies.token } })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => console.log(err));
+
+  const editCourseName = req.body.editCourseName;
+  let put = false;
+  for (let i = 0; i < courses.length; ++i) {
+    if (editCourseName === courses[i].CourseName) {
+      put = true;
+    }
+  }
+
+  /* PUT */
+  if (put) {
+    await axios
+      .put(COURSE_ROUTE, {
+        courseName: req.body.editCourseName,
+        description: req.body.description,
+        personId: parseInt(req.body.professorId),
+        token: req.cookies.token,
+      })
+      .then((response) => console.log(response))
+      .catch((err) => console.error(err));
+  } else {
+    /* create a course */
+    await axios
+      .post(COURSE_ROUTE, {
+        courseName: req.body.courseName,
+        description: req.body.description,
+        personId: parseInt(req.body.professorId),
+        token: req.cookies.token,
+      })
+      .then((response) => {
+        console.log("@@: ", response);
+      })
+      .catch((err) => console.error(err));
+  }
+
+  res.redirect("./admin");
 });
 
 module.exports = router;

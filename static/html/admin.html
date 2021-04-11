@@ -11,6 +11,13 @@
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
+    </script>
   <script src="js/index.js"></script>
   <title>Admin</title>
   <style>
@@ -24,6 +31,12 @@
 
     .context {
       padding-top: 50px;
+    }
+
+    .table {
+      max-width: none;
+      table-layout: fixed;
+      word-wrap: break-word;
     }
   </style>
 </head>
@@ -49,8 +62,7 @@
     </div>
 
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
         Settings
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -65,10 +77,12 @@
       </div>
     </li>
   </nav>
-  <div class="container requestContainer context">
-    <table class="table table-sm table-bordered caption-top text-center">
-      <h3>Number of requests for REST API </h3>
-      <br />
+  <div class="container d-flex justify-content-between align-items-center context">
+    <h3>Number of requests for REST API </h3>
+  </div>
+  <br />
+  <div class="container">
+    <table class="table table-sm table-bordered overflow-auto text-center">
       <thead class="text-center">
         <tr>
           <th scope="col">Object</th>
@@ -186,17 +200,10 @@
       </tbody>
     </table>
   </div>
-  <script src="js/admin.js"></script>
-
-  <div class="container">
-    <hr>
-  </div>
-
-
   <div class="container d-flex justify-content-between align-items-center context">
     <h3>Registered Courses</h3>
 
-    <button type="button" class="btn-sm btn-secondary" data-toggle="modal" data-target="#registerCourseModal">
+    <button type="button" class="btn-sm btn-secondary" data-toggle="modal" data-target="#editCourseModal">
       Register a Course
     </button>
   </div>
@@ -210,8 +217,6 @@
           <th scope="col">Description</th>
           <th scope="col">Instructor</th>
           <th scope="col">Edit</th>
-          <th scope="col">Delete</th>
-
         </tr>
       </thead>
       <tbody>
@@ -220,18 +225,18 @@
             <th scope="row">
               <%= i+1 %>
             </th>
-            <td>
+            <td id="courseName<%=args.courses[i].ID%>">
               <%= args.courses[i].CourseName %>
             </td>
-            <td>
+            <td id="courseDescription<%=args.courses[i].ID%>">
               <%= args.courses[i].Description %>
             </td>
-            <td>
+            <td id="courseInstructor<%=args.courses[i].ID%>">
               <%= args.courses[i].Instructor %>
             </td>
-            <td><button class="btn-sm btn-secondary test" data-toggle="modal" data-target="#registerCourseModal"
-                title="Edit <%= args.courses[i].CourseName %>">Edit</button></td>
-            <td><button class="btn-sm btn-secondary">Delete</button></td>
+            <td><button id="courseEdit<%= args.courses[i].ID %>"
+                class="btn-sm btn-secondary test <%= args.courses[i].PersonID %>" data-toggle="modal"
+                data-target="#editCourseModal" title="Edit <%= args.courses[i].CourseName %>">Edit</button></td>
           </tr>
           <% } %>
       </tbody>
@@ -251,8 +256,6 @@
           <th scope="col">Professor name</th>
           <th scope="col">Courses teaching</th>
           <th scope="col">Email address</th>
-          <th scope="col">Edit</th>
-          <th scope="col">Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -261,29 +264,26 @@
             <th scope="row">
               <%= i+1 %>
             </th>
-            <td>
+
+            <td id="professorName<%=args.professors[i].ID%>">
               <%= args.professors[i].FirstName %>
                 <%= args.professors[i].LastName %>
             </td>
-            <td>
+            <td id="coursesTeaching<%=args.professors[i].ID%>">
               <%= args.professors[i].coursesTeaching %>
             </td>
-            <td>
+            <td id="professorEmail<%=args.professors[i].ID%>">
               <%= args.professors[i].Email %>
             </td>
-            <td><button class="btn-sm btn-secondary test" data-toggle="m  odal" data-target="#registerCourseModal"
-                title="Edit <%= args.courses[i].CourseName %>">Edit</button></td>
-            <td><button class="btn-sm btn-secondary">Delete</button></td>
           </tr>
           <% } %>
       </tbody>
     </table>
-
-  <!-- Modal -->
-  <div class="modal fade bd-example-modal-lg" id="registerCourseModal" tabindex="-1" role="dialog"
-    aria-labelledby="registerCourseModalLabel" aria-hidden="true">
+  </div>
+  <!-- Course Modal -->
+  <div class="modal fade bd-example-modal-lg" id="editCourseModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
+      <div id="modal-content" class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="registerCourseModalLabel">
             Register a Course
@@ -292,14 +292,15 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form class="form-horizontal" action="" method="POST">
-          <div class="modal-body">
+        <form id="submitCourseForm" class="form-horizontal" action="" method="POST">
+          <div id="modal-body" class="modal-body">
             <!-- Course Name -->
             <div class="form-group row">
               <label for="courseNameInput" class="col-sm-2 col-form-label col-form-label-sm">
                 Course Name:
               </label>
               <div class="col-sm-10">
+                <input id="hiddenInput" type="hidden" name="editCourseName">
                 <input type="text" class="form-control form-control-sm" id="courseNameInput" name="courseName"
                   placeholder="Please write coures name" />
               </div>
@@ -325,7 +326,7 @@
                 <select class="custom-select custom-select-sm" id="professorSelect" name="professorId">
                   <option> Please select professor</option>
                   <% for (let i=0; i < args.professors.length; i++) { %>
-                    <option value=<%=args.professors[i].ID %>>
+                    <option value=<%=args.professors[i].ID%>>
                       <%= args.professors[i].FirstName %>
                         <%= args.professors[i].LastName %>
                     </option>
@@ -339,7 +340,7 @@
                 Close
               </button>
               <form action="./register.html" method="POST">
-                <button type="submit" class="btn-sm btn-success">
+                <button id="submitForm" type="submit" class="btn-sm btn-success">
                   Save changes
                 </button>
               </form>
@@ -348,9 +349,26 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript">
+    $("[id^=courseEdit]").click(function ()
+    {
+      const id = $(this)[0].id.substring(10);
 
-  
-  </div>
+      let classes = $(this)[0].attributes[1].value.split(' ');
+      const personId = classes[classes.length - 1];
+
+      let courseName = $(`#courseName${id}`).html().trim();
+      let courseDescription = $(`#courseDescription${id}`).html().trim();
+      let courseInstructorId = $(`#courseInstructor${id}`).html();
+
+      $('#registerCourseModalLabel').html("Edit a course");
+      $("#courseNameInput").val(courseName);
+      $("#descriptionInput").val(courseDescription);
+      $("#professorSelect").val(personId);
+      $("#hiddenInput").val(courseName);
+      $("#courseNameInput").attr("disabled", "disabled");
+    });
+  </script>
 
 
 </body>

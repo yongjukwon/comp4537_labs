@@ -1,0 +1,68 @@
+<div class="modal fade bd-example-modal-lg" id="editProfessorModal" tabindex="-2" role="dialog"
+     aria-labelledby="editProfessorModalLabel" aria-hidden="true">
+     <div class="modal-dialog modal-lg" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="editProfessorModalLabel">
+             Register a Course
+           </h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <form class="form-horizontal" action="" method="POST">
+           <div class="modal-body">
+             <!-- Course Name -->
+             <div class="form-group row">
+               <label for="courseNameInput" class="col-sm-2 col-form-label col-form-label-sm">
+                 Course Name:
+               </label>
+               <div class="col-sm-10">
+                 <input type="text" class="form-control form-control-sm" id="courseNameInput" name="courseName"
+                   placeholder="Please write coures name" />
+               </div>
+             </div>
+
+             <!-- Description -->
+             <div class="form-group row">
+               <label for="instructorInput" class="col-sm-2 col-form-label col-form-label-sm">
+                 Description:
+               </label>
+               <div class="col-sm-10">
+                 <input type="text" class="form-control form-control-sm" id="descriptionInput" name="description"
+                   placeholder="Please write coures description" />
+               </div>
+             </div>
+
+             <!-- Professors -->
+             <div class="form-group row">
+               <label for="professorSelect" class="col-sm-2 col-form-label col-form-label-sm">
+                 Professor:
+               </label>
+               <div class="col-sm-10">
+                 <select class="custom-select custom-select-sm" id="professorSelect" name="professorId">
+                   <option> Please select professor</option>
+                   <% for (let i=0; i < args.professors.length; i++) { %>
+                     <option value=<%=args.professors[i].ID%>>
+                       <%= args.professors[i].FirstName %>
+                         <%= args.professors[i].LastName %>
+                     </option>
+                     <% } %>
+                 </select>
+               </div>
+             </div>
+
+             <div class="modal-footer">
+               <button type="button" class="btn-sm btn-secondary" data-dismiss="modal">
+                 Close
+               </button>
+               <form action="./register.html" method="POST">
+                 <button type="submit" class="btn-sm btn-success">
+                   Save changes
+                 </button>
+               </form>
+             </div>
+         </form>
+       </div>
+     </div>
+   </div>

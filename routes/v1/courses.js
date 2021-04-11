@@ -17,25 +17,7 @@ router
   })
   .post(async (req, res) => {
     await postHandler(req, res);
-  })
-  .put(async (req, res) => {
-    await putHandler(req, res);
   });
-
-const putHandler = async (req, res) => {
-  // await axios
-  //   .put(COURSE_ROUTE, {
-  //     courseName: "COMP9999",
-  //     description: req.body.description,
-  //     personId: parseInt(req.body.professorId),
-  //     token: req.cookies.token,
-  //   })
-  //   .then((response) => {
-  //     console.log(response);
-  //   });
-
-  res.render("./");
-};
 
 const getHandler = async (req, res, args) => {
   await axios

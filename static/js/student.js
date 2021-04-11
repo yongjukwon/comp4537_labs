@@ -1,9 +1,9 @@
 const dropCourse = (param) => {
   console.log("Dropping course", param);
-  document.getElementById(param).remove();
+  document.getElementById("e_" + param).remove();
 };
 
 const unFavoriteCourse = (param) => {
-  document.getElementById(param).remove();
+  document.getElementById("f_" + param).remove();
   console.log("Unfavoriting course", param);
 };

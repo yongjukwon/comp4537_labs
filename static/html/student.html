@@ -59,9 +59,9 @@
         </span>
       </button>
     </h4>
-    
+
     <% for (let i=0; i < enrolledCourses.length; i ++) { %>
-      <ul id = '<%= enrolledCourses[i].CourseName %>'class="list-group">
+      <ul id = 'e_<%= enrolledCourses[i].CourseName %>'class="list-group">
 
         <li class="enrolledCourses list-group-item container">
 
@@ -104,7 +104,7 @@
     </h4>
 
     <% for (let i=0; i < favorites.length; i ++) { %>
-      <ul id = '<%= favorites[i].CourseName %>'class="list-group">
+      <ul id = 'f_<%= favorites[i].CourseName %>'class="list-group">
 
         <li class="enrolledCourses list-group-item container">
 

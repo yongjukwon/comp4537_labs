@@ -1,12 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
-const { COURSE_ROUTE, PROFESSORS_ROUTE } = require("../../utils/constants");
+const authenticate = require("./utils/authentication");
+const { getRole } = require("../../utils/roles");
+const {
+  COURSE_ROUTE,
+  PROFESSORS_ROUTE,
+  USER_ROUTE,
+} = require("../../utils/constants");
 
 router
   .route("/")
   .get(async (req, res) => {
-    await getHandler(req, res);
+    let args = {};
+    args = await authenticate({ req: req, args: args });
+    await getHandler(req, res, args);
   })
   .post(async (req, res) => {
     await postHandler(req, res);
@@ -30,20 +38,33 @@ const putHandler = async (req, res) => {
   res.render("./");
 };
 
-const getHandler = async (req, res) => {
-  const args = {};
-  const loggedIn = req.cookies.token;
-
-  args.signUp = loggedIn ? "Log out" : "Sign up";
-  args.signUpRoute = loggedIn ? "javascript:logout()" : "./register.html";
+const getHandler = async (req, res, args) => {
+  const role = await getRole(req.cookies.token);
+  args.role = role;
 
   await axios
     .get(PROFESSORS_ROUTE, { data: { token: req.cookies.token } })
     .then((response) => {
-      console.log("PROF RESPONSE: ", response);
+      // console.log("PROF RESPONSE: ", response);
       args.professors = response.data;
     });
 
+  for (let i = 0; i < args.professors.length; ++i) {
+    await axios
+      .get(USER_ROUTE, {
+        data: {
+          personId: args.professors[i].ID,
+          token: req.cookies.token,
+        },
+      })
+      .then((response) => {
+        args.professors[i].name =
+          response.data[0].FirstName + " " + response.data[0].LastName;
+      });
+  }
+  console.log("PROFS: ", args.professors);
+
+  /* get courses */
   await axios
     .get(COURSE_ROUTE, { data: { token: req.cookies.token } })
     .then((response) => {
@@ -52,13 +73,19 @@ const getHandler = async (req, res) => {
     })
     .catch((err) => console.log(err));
 
-  console.log("ARGS: ", args);
+  for (let i = 0; i < args.courses.length; ++i) {
+    for (let j = 0; j < args.professors.length; ++j) {
+      if (args.courses[i].PersonID === args.professors[j].ID) {
+        args.courses[i].Instructor = args.professors[j].name;
+      }
+    }
+  }
+
   res.render(__dirname + "../../../static/html/courses.html", { args: args });
 };
 
 const postHandler = async (req, res) => {
-  console.log("REQ.BODY: ", req.body);
-  console.log("TOKEN: ", req.cookies.token);
+  /* create a course */
   await axios
     .post(COURSE_ROUTE, {
       courseName: req.body.courseName,

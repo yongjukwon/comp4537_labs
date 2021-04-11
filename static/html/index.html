@@ -41,7 +41,9 @@
         Settings
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a id="logInLink" class="dropdown-item" href="./login.html">Log In</a>
+        <% if (!args.loggedIn) { %>
+          <a id="logInLink" class="dropdown-item" href="./login.html">Log In</a>
+        <% } %>
         <a id="signUpLink" class="dropdown-item" href=<%=args.signUpRoute %>><%= args.signUp %></a>
       </div>
     </li>

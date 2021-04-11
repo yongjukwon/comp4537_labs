@@ -40,7 +40,7 @@ const getHandler = async (req, res) => {
   await axios
     .get(PROFESSORS_ROUTE, { data: { token: req.cookies.token } })
     .then((response) => {
-      console.log("PROF RESPONSE: ", response);
+      // console.log("PROF RESPONSE: ", response);
       args.professors = response.data;
     });
 

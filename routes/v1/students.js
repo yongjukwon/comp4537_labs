@@ -15,15 +15,11 @@ router.route("/").get(async (req, res) => {
   let args = {};
   args = await authenticate({ req: req, args: args });
 
-  args.signUp = loggedIn ? "Log out" : "Sign up";
-  args.signUpRoute = loggedIn ? "javascript:logout()" : "./register.html";
-
-  const cookies = cookie.parse(req.headers.cookie);
-  const role = await getRole(cookies.token);
+  const role = await getRole(req.cookies.token);
 
   if (role === "STUDENT" || role === "ADMIN") {
-    const favorites = await getFavorites(cookies.token);
-    const enrolled = await getEnrollments(cookies.token);
+    const favorites = await getFavorites(req.cookies.token);
+    const enrolled = await getEnrollments(req.cookies.token);
 
     res.render(__dirname + "../../../static/html/student.html", {
       favorites: favorites,

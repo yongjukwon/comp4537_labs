@@ -39,7 +39,9 @@ router.route("/").get(async (req, res) => {
     return;
   }
 
-  const role = await getRole(req.cookies.token);
+  const role = await getRole(req.cookies.token).catch((err) =>
+    console.log(err)
+  );
   if (role !== "ADMIN") {
     alert(
       "Sorry, you are not allowed to see admin page.\nThis is only for admin"
@@ -87,6 +89,18 @@ router.route("/").get(async (req, res) => {
       }
     }
   }
+
+  for (let i = 0; i < args.professors.length; ++i) {
+    let coursesTeaching = "";
+    for (let j = 0; j < args.courses.length; ++j) {
+      if (args.courses[j].PersonID === args.professors[i].ID) {
+        coursesTeaching += args.courses[j].CourseName + " ";
+      }
+    }
+    args.professors[i].coursesTeaching = coursesTeaching;
+  }
+
+  console.log("*(*(: ", args);
 
   await axios
     .all([

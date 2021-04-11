@@ -24,18 +24,29 @@
     <a class="navbar-brand" href="#">BCIT Nerds</a>
     <div class="container-fluid">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <% if(args.role === "PROFESSOR" || args.role === "STUDENT" || args.role === "ADMIN" ) { %>
         <li class="nav-item">
           <a class="nav-link" href="./courses.html">Courses</a>
         </li>
+        <% } %>
+
+        <% if(args.role === "PROFESSOR") { %>
         <li class="nav-item">
           <a class="nav-link" href="./professor.html">Professors</a>
         </li>
+        <% } %>
+
+        <% if(args.role === "STUDENT") { %>
         <li class="nav-item">
           <a class="nav-link" href="./student.html">Students</a>
         </li>
+        <% } %>
+
+        <% if(args.role === "ADMIN") { %> 
         <li class="nav-item">
           <a class="nav-link" href="./admin.html">Admin</a>
         </li>
+        <% } %>
       </ul>
     </div>
 
@@ -55,9 +66,32 @@
     </li>
   </nav>
 
-  <div class="container">
-    <h1></h1>
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div class="d-flex justify-content-center mt-5">
+    <h1> Welcome <%= args.role %>,  
+      <% if (args.role === "STUDENT") { %>
+        Let's get learning! 🙌🏼 
+      <% } %>
+
+      <% if (args.role === "PROFESSOR") { %>
+        Let's get teaching! 🚀 
+      <% } %>
+
+      <% if (args.role === "ADMIN") { %>
+        Let's drop some rows! 👀 
+      <% } %>
+      </h1>
   </div>
+
 </body>
 
 </html>

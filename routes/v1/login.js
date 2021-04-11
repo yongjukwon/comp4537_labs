@@ -3,32 +3,41 @@ const router = express.Router();
 const axios = require("axios");
 const { LOGIN_ROUTE } = require("../../utils/constants");
 const cookie = require("cookie");
+const authenticate = require("./utils/authentication");
 
-router.route("/").get((req, res) => {
-  res.render(__dirname + "../../../static/html/login.html", { errors: "" });
+router.route("/").get(async (req, res) => {
+  let args = {};
+  args = await authenticate({ req: req, args: args });
+
+  res.render(__dirname + "../../../static/html/login.html", {
+    args: args,
+    errors: "",
+  });
 });
 
-router.route("/").post(async (request, response) => {
-  console.log(LOGIN_ROUTE);
+router.route("/").post(async (req, res) => {
+  let args = {};
+  args = await authenticate({ req: req, args: args });
   await axios({
     method: "post",
     url: LOGIN_ROUTE,
     data: {
-      email: request.body.Username,
-      password: request.body.Password,
+      email: req.body.Username,
+      password: req.body.Password,
     },
   }).then(
-    (res) => {
-      if (res.data.token)
-        response.setHeader(
+    (response) => {
+      if (response.data.token)
+        res.setHeader(
           "Set-Cookie",
-          cookie.serialize("token", res.data.token)
+          cookie.serialize("token", response.data.token)
         );
 
-      response.redirect("index");
+      res.redirect("index");
     },
     (err) => {
-      response.render(__dirname + "../../../static/html/login.html", {
+      res.render(__dirname + "../../../static/html/login.html", {
+        args: args,
         errors: "Invalid login information",
       });
       console.log("ERROR", err);

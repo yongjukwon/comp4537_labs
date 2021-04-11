@@ -35,7 +35,7 @@ app.use([endPoint + "/index.html", endPoint + "/index"], index);
 app.use([endPoint + "/register.html", endPoint + "/register"], register);
 app.use([endPoint + "/student.html", endPoint + "/student"], student);
 app.use([endPoint + "/professor.html", endPoint + "/professor"], professor);
-app.use([endPoint + "/logout.html", endPoint + "/logout"], professor);
+app.use([endPoint + "/logout.html", endPoint + "/logout"], logout);
 
 /* Swagger document */
 app.use(

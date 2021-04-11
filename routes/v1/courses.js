@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const authenticate = require("./utils/authentication");
-const { getRole } = require("../../utils/roles");
 const {
   COURSE_ROUTE,
   PROFESSORS_ROUTE,
@@ -39,15 +38,12 @@ const putHandler = async (req, res) => {
 };
 
 const getHandler = async (req, res, args) => {
-  const role = await getRole(req.cookies.token);
-  args.role = role;
-
   await axios
     .get(PROFESSORS_ROUTE, { data: { token: req.cookies.token } })
     .then((response) => {
-      // console.log("PROF RESPONSE: ", response);
       args.professors = response.data;
-    });
+    })
+    .catch((err) => console.log(err));
 
   for (let i = 0; i < args.professors.length; ++i) {
     await axios
@@ -60,9 +56,10 @@ const getHandler = async (req, res, args) => {
       .then((response) => {
         args.professors[i].name =
           response.data[0].FirstName + " " + response.data[0].LastName;
-      });
+        args.professors[i].email = response.data[0].Email;
+      })
+      .catch((err) => console.log(err));
   }
-  console.log("PROFS: ", args.professors);
 
   /* get courses */
   await axios
@@ -77,10 +74,12 @@ const getHandler = async (req, res, args) => {
     for (let j = 0; j < args.professors.length; ++j) {
       if (args.courses[i].PersonID === args.professors[j].ID) {
         args.courses[i].Instructor = args.professors[j].name;
+        args.courses[i].InstructorContact = args.professors[j].email;
       }
     }
   }
 
+  console.log(args);
   res.render(__dirname + "../../../static/html/courses.html", { args: args });
 };
 
@@ -98,7 +97,7 @@ const postHandler = async (req, res) => {
     })
     .catch((err) => console.error(err));
 
-  res.redirect("back");
+  res.redirect("./courses");
 };
 
 module.exports = router;

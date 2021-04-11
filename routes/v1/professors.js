@@ -36,6 +36,21 @@ router.route("/").get(async (req, res) => {
       args.professors = response.data;
     });
 
+  const professors = args.professors;
+  const courses = args.courses;
+
+  for (let i = 0; i < professors.length; ++i) {
+    let coursesTeaching = "";
+    for (let j = 0; j < courses.length; ++j) {
+      if (courses[j].PersonID === professors[i].ID) {
+        coursesTeaching += courses[j].CourseName + " ";
+      }
+    }
+    args.professors[i].coursesTeaching = coursesTeaching;
+  }
+
+  console.log("ARGS: ", args);
+
   res.render(__dirname + "../../../static/html/professor.html", {
     args: args,
   });

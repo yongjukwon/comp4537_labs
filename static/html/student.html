@@ -32,13 +32,7 @@
           <a class="nav-link" href="./courses.html">Courses</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./professor.html">Professors</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="./student.html">Students</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./admin.html">Admin</a>
         </li>
       </ul>
     </div>
@@ -137,7 +131,12 @@
             </div>
   
             <div class = "col">
-              <button type="button" class="btn btn-warning" onclick = "unFavoriteCourse('<%= favorites[i].CourseName %>')"> Unfavorite course</button>
+              <form action= "student" method="POST">
+                <input type="hidden" class="form-control" name = "path" value="FAVORITES">
+                <input type="hidden" class="form-control" name = "method" value="DELETE">
+                <input type="hidden" class="form-control" name = "courseId" value="<%= favorites[i].ID %>">
+                <button type="submit" class="btn btn-warning"> Unfavorite </button>
+              </form>
             </div> 
 
           </div>

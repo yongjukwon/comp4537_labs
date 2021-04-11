@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { getRole } = require("../../utils/roles");
 const { getFavorites, getEnrollments } = require("../../utils/students");
-const { ENROLLMENTS_ROUTE } = require("../../utils/constants");
+const { ENROLLMENTS_ROUTE, FAVORITES_ROUTE } = require("../../utils/constants");
 const authenticate = require("./utils/authentication");
 const axios = require("axios");
 
@@ -35,18 +35,41 @@ router.route("/").get(async (req, res) => {
 
 router.route("/").post(async (req, res) => {
   if (req.body.method === "DELETE" && req.body.path === "ENROLLMENTS") {
-    const result = await axios({
+    await axios({
       method: "DELETE",
       url: ENROLLMENTS_ROUTE,
       data: {
         token: req.cookies.token,
         courseId: req.body.courseId,
       },
-    });
-
-    console.log(result);
-
-    res.redirect("student");
+    }).then(
+      (response) => {
+        console.log("RES: ", response);
+        res.redirect("student");
+      },
+      (err) => {
+        console.log(err);
+        console.log(err.stack);
+      }
+    );
+  } else if (req.body.method === "DELETE" && req.body.path === "FAVORITES") {
+    await axios({
+      method: "DELETE",
+      url: FAVORITES_ROUTE,
+      data: {
+        token: req.cookies.token,
+        courseId: req.body.courseId,
+      },
+    }).then(
+      (response) => {
+        console.log("RES: ", response);
+        res.redirect("student");
+      },
+      (err) => {
+        console.log(err);
+        console.log(err.stack);
+      }
+    );
   }
 });
 

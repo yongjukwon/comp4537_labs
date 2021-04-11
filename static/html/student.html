@@ -80,7 +80,13 @@
             </div>
   
             <div class = "col">
-              <button type="button" class="btn btn-danger" onclick = "dropCourse('<%= enrolledCourses[i].CourseName %>')"> Drop course</button>
+
+              <form action= "student" method="POST">
+                <input type="hidden" class="form-control" name = "path" value="ENROLLMENTS">
+                <input type="hidden" class="form-control" name = "method" value="DELETE">
+                <input type="hidden" class="form-control" name = "courseId" value="<%= enrolledCourses[i].CourseID %>">
+                <button type="submit" class="btn btn-danger"> Drop course</button>
+              </form>
             </div> 
 
           </div>
